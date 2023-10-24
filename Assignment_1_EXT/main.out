@@ -1,0 +1,54 @@
+
+1. Demorgans' First Law
+p         q         !(p+q)    !p*!q     
+false     false     true      true      
+true      false     true      true      
+false     true      true      true      
+true      true      false     false     
+
+2. Demorgans' Second Law
+p         q         !(p*q)    !p+!q     
+false     false     true      true      
+true      false     false     false     
+false     true      false     false     
+true      true      false     false     
+
+3. First Associative Law:
+p         q         r         (p*q)*r    p*(q*r)    
+false     false     false     false      false      
+false     false     true      false      false      
+false     true      false     false      false      
+false     true      true      false      false      
+true      false     false     false      false      
+true      false     true      false      false      
+true      true      false     false      false      
+true      true      true      true       true       
+
+4. Second Associative Law:
+p         q         r         (p+q)+r    p+(q+r)    
+false     false     false     false      false      
+false     false     true      true       true       
+false     true      false     true       true       
+false     true      true      true       true       
+true      false     false     true       true       
+true      false     true      true       true       
+true      true      false     true       true       
+true      true      true      true       true       
+
+5. Proposition Five:
+p         q         r         [(p+q)*(p->r)*(q->r)]->r    True                        
+false     false     false     true                        true                        
+false     false     true      true                        true                        
+false     true      false     true                        true                        
+false     true      true      true                        true                        
+true      false     false     true                        true                        
+true      false     true      true                        true                        
+true      true      false     true                        true                        
+true      true      true      true                        true                        
+
+6. Proposition Six:
+p         q         p<->q     (p->q)*(q->p)
+false     false     true      true      
+true      false     false     false     
+false     true      false     false     
+true      true      true      true      
