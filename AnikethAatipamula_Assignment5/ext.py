@@ -1,102 +1,139 @@
+''' 
+Program: EECS 210 Assignment 5
+Inputs: No inputs to file required.
+Outputs: Function relation types, and GCD for sets of numbers using different methods
+Collaborators/Sources: N/A
+Name: Aniketh Aatipamula
+Creation-Date: 10/23/2023
+Description: This program defines algorithms and types to find properties of relations
+and determine the gcd of two numbers, and bezouts coefficents in various ways.
+'''
+
+# import typing stuff for my sake
 from typing import Generator, Literal, Tuple, List, Set
 
+# define what a relation is
 Relation = Set[Tuple[int | str, int | str]]
+# define what values the func_type function can return
 FuncType = Literal['injective', 'surjective', 'bijective']
+# define what the _gcd generator yields
 GCDGen = Generator[List[int], None, None]
 
 # determine if relation a function
 def is_function(A: set, B: set, relation: Relation) -> bool:
+    # if the relation is not equal in length to the number of inputs it cannot be a function relation
     if len(relation) != len(A):
         return False
+    # we will create a sets of all the inputs and outputs from the relation
     inputs = set()
     outputs = set()
     for _input, output in relation:
         inputs.add(_input)
         outputs.add(output)
+    # if the input set matches A and outputs belong to B we have a functino
     if inputs == A and outputs.issubset(B):
         return True
+    # otherwise not a function
     return False
 
 # determine type of function, assumes relation is a function
 def func_type(B: set, relation: Relation) -> FuncType:
+    # Get all the outputs not elimination the unique ones
     outputs = tuple(output for _, output in relation)
+    # get all the unique outputs
     unique_outputs = set(outputs)
+    # if the number of unique outputs are equal in length to the number of all outputs the function is injective
+    # does not necessarily mean that the outputs contain every value in B
     injective = len(outputs) == len(unique_outputs)
+    # if the number of unique outputs is the same as B there is a one-one mapping of inputs or outputs
+    # this indicates surjective
     surjective = unique_outputs == B
+    # definition of bijective
     if surjective and injective:
         return 'bijective'
+    # if its not bijective and is surjective
     elif surjective:
         return 'surjective'
+    # otherwise injective
     return 'injective'
 
 # find the inverse of a function relation
 def inverse_func(relation: Relation) -> Relation:
+    # just iterate through the relation and invert each pair
     return set((output, _input) for _input, output in relation)
 
+# a generator that returns all the steps for a gcd of any two numbers
 def _gcd(a: int, b: int) -> GCDGen:
+    # get the min/max to normalize the process
     x = max(a, b)
     y = min(a, b)
+    # just defining the remainder
     r = 0
+    # while the divisor isn't zero
     while y != 0:
+        # the remainder is the mod of x and y
         r = x % y 
+        # yield the current values
         yield [x, y, x//y, r]
+        # shift the dividend and divisor to continue
         x = y
         y = r
 
 # find the GCD using euclid's method
 def gcd(a: int, b: int) -> int:
+    # x is arbitrarily defined
     x = 0
+    # using the gcd generator print out all the values 
     for x, y, q, r in _gcd(a, b):
         print(f"{x}/{y} = {q} R {r}")
         x = x
+    # return the last dividend (x) which should be the gcd
     return x
 
 # find the bezouts coefficents for the two numbers using the euclidean algorithim
-def bezouts(_a: int, _b: int) -> Tuple[int, int]:
+def bezouts(A: int, B: int) -> Tuple[int, int]:
     # generate the steps needed using the euclidean algo
-    steps = [pair for pair in _gcd(_a, _b)]
+    steps = [pair for pair in _gcd(A, B)]
 
     # we don't need the last step and we have to reverse the order of euclidean steps
     steps.pop()
     steps.reverse()
 
     # grab the previous step to modify throughout the number of steps, add a coefficent to keep track of (s)
-    previous = steps[0]
+    _a, _b, _t, gcd = steps[0]
     s = 1
 
     # loop through the steps
     for a, b, t, r in steps[1:]:
         # print the current state of the equation
-        print(f"{previous[3]}={s}*{previous[0]}-{previous[2]}*{previous[1]}")
-
-        # find where the remainder is equal to another value in the equation
-        indx = previous.index(r) 
+        print(f"{gcd} = {s} * {_a} - {_t} * {_b}")
 
         # if the remainder is equal to the first value (a)
-        if indx == 1:
+        if r == _b:
             # print r subbed in for a
-            print(f"{previous[3]}={s}*{previous[0]}-{previous[2]}*({a}-{t}*{b})")
+            print(f"{gcd} = {s} * {_a} - {_t} * ({a} - {t} * {b})")
             # calculate the value of t (because of how we factor in r)
-            s = previous[2]*t + s
+            s = _t*t + s
+            # set b equal to whatever a is (because of how we subbed in r)
+            _b = a 
 
         # if the remainder is equal to the second value (b)
-        elif indx == 0:
+        elif r == _a:
             # print r subbed in for b
-            print(f"{previous[3]}={s}*({a}-{t}*{b})-{previous[2]}*{previous[1]}")
+            print(f"{gcd} = {s} * ({a} - {t} * {b}) - {_t} * {_b} ")
             # calculate the value of t (because of how we factor in r)
-            previous[2] = s*t + previous[2]
-        
-        # set a or b equal to whatever a is (because of how we subbed in r)
-        previous[indx] = a
+            _t = s*t + _t
+            # set a or b equal to whatever a is (because of how we subbed in r)
+            _a = a 
 
     # print the final equation that gives us the coefficents
-    print(f"{previous[3]}={s}*{previous[0]}-{previous[2]}*{previous[1]}")
+    print(f"{gcd} = {s} * {_a} - {_t} * {_b}")
 
-    # if the number inputted first is greater its coefficent is s
-    if _a > _b:
-        return s, -previous[2]
-    # if the number inputted second is greater its coefficent is s
-    return -previous[2], s
+    # match each coefficent to the proper input value
+    if A == _a:
+        return s, -_t
+    # s and t are flipped if A does not map to _a
+    return -_t, s
 
 def bezoutsTwo(_a: int, _b: int) -> Tuple[int, int]:
 
@@ -106,15 +143,15 @@ def bezoutsTwo(_a: int, _b: int) -> Tuple[int, int]:
     q = [] 
 
     indx = 2 # we are starting to calculate s and t at index 2
-    for index, vals in enumerate(_gcd(_a, _b), 1):
+    for step in _gcd(_a, _b):
         # keep track of q
-        q.append(vals[2])
+        q.append(step[2])
         # use the extended euclidean formula to calculate s at index 2-j
         # akin to s(j-2) - q(j-1) * s(j-1)
-        s.append(s[indx-2] - vals[2] * s[indx-1])
+        s.append(s[indx-2] - step[2] * s[indx-1])
         # use the extended euclidean formula to calculate t at index 2-j
         # akin to t(j-2) - q(j-1) * t(j-1)
-        t.append(t[indx-2] - vals[2] * t[indx-1])
+        t.append(t[indx-2] - step[2] * t[indx-1])
         indx += 1
 
     # we don't need the last two values of s and t
