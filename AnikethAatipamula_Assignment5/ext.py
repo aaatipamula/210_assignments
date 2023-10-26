@@ -15,7 +15,7 @@ from typing import Generator, Literal, Tuple, List, Set
 # define what a relation is
 Relation = Set[Tuple[int | str, int | str]]
 # define what values the func_type function can return
-FuncType = Literal['injective', 'surjective', 'bijective']
+FuncType = Literal['injective', 'surjective', 'bijective', 'neither injective nor surjective']
 # define what the _gcd generator yields
 GCDGen = Generator[List[int], None, None]
 
@@ -54,8 +54,10 @@ def func_type(B: set, relation: Relation) -> FuncType:
     # if its not bijective and is surjective
     elif surjective:
         return 'surjective'
-    # otherwise injective
-    return 'injective'
+    elif injective:
+        return 'injective'
+    # otherwise nothing
+    return 'neither injective nor surjective'
 
 # find the inverse of a function relation
 def inverse_func(relation: Relation) -> Relation:
@@ -92,8 +94,13 @@ def gcd(a: int, b: int) -> int:
 
 # find the bezouts coefficents for the two numbers using the euclidean algorithim
 def bezouts(A: int, B: int) -> Tuple[int, int]:
+    steps = []
     # generate the steps needed using the euclidean algo
-    steps = [pair for pair in _gcd(A, B)]
+    for step in _gcd(A, B):
+        # keep track of the step
+        steps.append(step)
+        # print the step
+        print(f"{step[0]} = {step[1]} * {step[2]} + {step[3]}")
 
     # we don't need the last step and we have to reverse the order of euclidean steps
     steps.pop()
