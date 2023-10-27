@@ -173,7 +173,7 @@ def bezoutsTwo(_a: int, _b: int) -> Tuple[int, int]:
     for index, val in enumerate(s):
         if index not in (0, 1):
             # print each value and how we calculated that value for s
-            print(f"s{index} = s{index-2} - {val} * s{index-1} = {val}", end=", ")
+            print(f"s{index} = {s[index-2]} - {q[index-2]} * {s[index-1]} = {val}", end=", ")
         else:
             # we don't need to calculate the value of s0 and s1
             print(f"s{index} = {val}", end=", ")
@@ -184,7 +184,7 @@ def bezoutsTwo(_a: int, _b: int) -> Tuple[int, int]:
     for index, val in enumerate(t):
         if index not in (0, 1):
             # print each value and how we calculated that value for s
-            print(f"t{index} = t{index-2} - {val} * t{index-1} = {val}", end=", ")
+            print(f"t{index} = {t[index-2]} - {q[index-2]} * {t[index-1]} = {val}", end=", ")
         else:
             # we don't need to calculate the value of s0 and s1
             print(f"t{index} = {val}", end=", ")
