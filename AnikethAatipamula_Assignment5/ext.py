@@ -149,8 +149,7 @@ def bezoutsTwo(_a: int, _b: int) -> Tuple[int, int]:
     t = [0, 1] # t0, t1 will always be 0, 1 respectively
     q = [] 
 
-    indx = 2 # we are starting to calculate s and t at index 2
-    for step in _gcd(_a, _b):
+    for indx, step in enumerate(_gcd(_a, _b), 2):
         # keep track of q
         q.append(step[2])
         # use the extended euclidean formula to calculate s at index 2-j
@@ -159,7 +158,6 @@ def bezoutsTwo(_a: int, _b: int) -> Tuple[int, int]:
         # use the extended euclidean formula to calculate t at index 2-j
         # akin to t(j-2) - q(j-1) * t(j-1)
         t.append(t[indx-2] - step[2] * t[indx-1])
-        indx += 1
 
     # we don't need the last two values of s and t
     s.pop()
