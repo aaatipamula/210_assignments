@@ -84,13 +84,13 @@ def _gcd(a: int, b: int) -> GCDGen:
 # find the GCD using euclid's method
 def gcd(a: int, b: int) -> int:
     # x is arbitrarily defined
-    x = 0
+    y = 0
     # using the gcd generator print out all the values 
     for x, y, q, r in _gcd(a, b):
         print(f"{x}/{y} = {q} R {r}")
-        x = x
+        x = y
     # return the last dividend (x) which should be the gcd
-    return x
+    return y
 
 # find the bezouts coefficents for the two numbers using the euclidean algorithim
 def bezouts(A: int, B: int) -> Tuple[int, int]:
