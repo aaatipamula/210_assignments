@@ -1,0 +1,28 @@
+----------------------------------------
+Question 1
+----------------------------------------
+Example 8: How many ways are there to deal 5-card poker hands from a 52 card deck to each of the four players
+1478262843475644020034240 ways
+Question 1b: A professor packs her collection of 40 issues of a mathematics journal in four boxes with 10 issues per box. How many ways can she distribute the journals if each box is numbered, so that they are distinguishable?
+4705360871073570227520 ways
+----------------------------------------
+Question 2
+----------------------------------------
+Example 9: How many ways are there to place 10 indistinguishable balls into 8 distinguishable bins?
+19448 ways
+Question 2b: How many ways are there to distribute 12 indistinguishable balls into six distinguishable bins?
+6188 ways
+----------------------------------------
+Question 3
+----------------------------------------
+Example 10: How many ways can Anna, Billy, Caitlin, and Danny be placed into three indistinguishable homerooms?
+14 ways
+Question 3b: How many ways are there to put five temporary employees into four identical offices?
+51 ways
+----------------------------------------
+Question 4
+----------------------------------------
+Example 11: How many ways can you pack six copies of the same book into four identical boxes?
+9 ways
+Question 4b: How many ways are there to distribute five indistinguishable objects into three indistinguishable boxes?
+5 ways
